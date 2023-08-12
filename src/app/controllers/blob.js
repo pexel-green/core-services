@@ -1,8 +1,8 @@
 const prisma = require("../../../prisma/index")
 const responseHandler = require("../../app/utils/responseHandler")
-class UserController {
+class BlobController {
     get(req, res) {
-        prisma.user.findUnique(req.body)
+        prisma.blob.findUnique(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -11,7 +11,7 @@ class UserController {
     }
 
     create(req, res) {
-        prisma.user.create(req.body)
+        prisma.blob.create(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -20,7 +20,7 @@ class UserController {
     }
 
     update(req, res) {
-        prisma.user.update(req.body)
+        prisma.blob.update(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -29,7 +29,7 @@ class UserController {
     }
 
     delete(req, res) {
-        prisma.user.delete(req.body)
+        prisma.blob.delete(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -38,4 +38,4 @@ class UserController {
     }
 }
 
-module.exports = new UserController();
+module.exports = new BlobController();

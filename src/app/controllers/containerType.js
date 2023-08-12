@@ -1,8 +1,9 @@
 const prisma = require("../../../prisma/index")
-const responseHandler = require("../../app/utils/responseHandler")
-class UserController {
+const responseHandler = require("../utils/responseHandler")
+
+class ContainerTypeController {
     get(req, res) {
-        prisma.user.findUnique(req.body)
+        prisma.containerType.findUnique(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -11,7 +12,7 @@ class UserController {
     }
 
     create(req, res) {
-        prisma.user.create(req.body)
+        prisma.containerType.create(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -20,7 +21,7 @@ class UserController {
     }
 
     update(req, res) {
-        prisma.user.update(req.body)
+        prisma.containerType.update(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -29,7 +30,7 @@ class UserController {
     }
 
     delete(req, res) {
-        prisma.user.delete(req.body)
+        prisma.containerType.delete(req.body)
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
@@ -38,4 +39,4 @@ class UserController {
     }
 }
 
-module.exports = new UserController();
+module.exports = new ContainerTypeController();
