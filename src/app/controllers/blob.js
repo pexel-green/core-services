@@ -3,8 +3,11 @@ const responseHandler = require("../../app/utils/responseHandler")
 class BlobController {
     get(req, res) {
         prisma.blob.findUnique(req.body)
-            .then(result => {
-                responseHandler.success()
+            .then(data => {
+                return responseHandler.success(res, 200, {
+                    message: "",
+                    data
+                }, {})
             }).catch(err => {
                 responseHandler.error()
             })
@@ -12,8 +15,11 @@ class BlobController {
 
     create(req, res) {
         prisma.blob.create(req.body)
-            .then(result => {
-                responseHandler.success()
+            .then(data => {
+                return responseHandler.success(res, 201, {
+                    message: "",
+                    data
+                }, {})
             }).catch(err => {
                 responseHandler.error()
             })
@@ -21,8 +27,11 @@ class BlobController {
 
     update(req, res) {
         prisma.blob.update(req.body)
-            .then(result => {
-                responseHandler.success()
+            .then(data => {
+                return responseHandler.success(res, 200, {
+                    message: "",
+                    data
+                }, {})
             }).catch(err => {
                 responseHandler.error()
             })
@@ -30,8 +39,11 @@ class BlobController {
 
     delete(req, res) {
         prisma.blob.delete(req.body)
-            .then(result => {
-                responseHandler.success()
+            .then(data => {
+                return responseHandler.success(res, 200, {
+                    message: "",
+                    data
+                }, {})
             }).catch(err => {
                 responseHandler.error()
             })

@@ -1,12 +1,18 @@
 datasource db {
-    provider = "sqlserver"
-    url      = env("DATABASE_URL")
+    provider          = "sqlserver"
+    url               = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
 }
 
 model User {
     id        String   @id @default(uuid())
-    name      String
+    name      String?
     email     String   @unique
+    password  String
     type      Int      @default(1)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
