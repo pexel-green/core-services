@@ -16,12 +16,9 @@ class BlobController {
     create(req, res) {
         prisma.blob.create(req.body)
             .then(data => {
-                return responseHandler.success(res, 201, {
-                    message: "",
-                    data
-                }, {})
+                return responseHandler.success(res, 201, data, {})
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 

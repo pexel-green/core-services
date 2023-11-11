@@ -19,31 +19,19 @@ model User {
     containers Container[]
 }
 
-model ContainerType {
-    id   String @id @default(uuid())
-    name String
-
-    containers Container[]
-}
-
 model Container {
-    id    String @id @default(uuid())
-    type  Int    @default(1)
-    blobs Blob[]
-
-    User            User          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: Cascade)
-    userId          String
-    ContainerType   ContainerType @relation(fields: [containerTypeId], references: [id], onDelete: NoAction, onUpdate: Cascade)
-    containerTypeId String
+    id     String @id @default(uuid())
+    type   Int    @default(1)
+    name   String
+    blobs  Blob[]
+    User   User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+    userId String
 }
 
 model Blob {
-    id        String @id @default(uuid())
-    name      String
-    extension String
-    type      Int    @default(1)
-    size      Int
-
+    id          String    @id @default(uuid())
+    name        String
+    type        Int       @default(1)
     Container   Container @relation(fields: [containerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     containerId String
 }

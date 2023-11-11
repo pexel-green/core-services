@@ -8,8 +8,21 @@ const sendMail = require('../services/mailService');
 
 class AuthController {
     login(req, res) {
-        prisma.user.findUnique(req.body)
+        prisma.user.findUnique({
+            ...req.body,
+            select: {
+                name: true,
+                email: true,
+                containers: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        })
             .then(result => {
+                console.log({ result })
                 if (req.type === 1) {
                     responseHandler.error(res, 500, {
                         message: "Account not activate. Try to register again"
