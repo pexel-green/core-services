@@ -13,11 +13,9 @@ route(app)
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server Listening on PORT:", process.env.PORT || 3000);
 });
-
 app.get('/', (req, res) => {
     res.send('Hello World! default')
 })
-
 app.get('/test', (req, res) => {
     res.send('Hello World!')
 })
