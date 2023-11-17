@@ -3,10 +3,25 @@ const responseHandler = require("../../app/utils/responseHandler")
 class UserController {
     get(req, res) {
         prisma.user.findUnique({
-            where: req.query
+            where: req.query,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                type: true,
+                containers: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
         })
-            .then(result => {
-                responseHandler.success(res, 200, result)
+            .then(data => {
+                if (data) {
+                    responseHandler.success(res, 200, { ...data, container: data.containers[0].name })
+                } else {
+                    responseHandler.error(res, 403, null)
+                }
             }).catch(err => {
                 responseHandler.error()
             })

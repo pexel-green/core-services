@@ -1,12 +1,26 @@
 const prisma = require("../../../prisma/index")
 const responseHandler = require("../../app/utils/responseHandler")
 class BlobController {
-    get(req, res) {
-        prisma.blob.findUnique(req.body)
+    find(req, res) {
+        prisma.blob.findMany({
+            select: {
+                id: true,
+                name: true,
+                Container: {
+                    select: {
+                        name: true
+                    }
+                }
+            },
+            ...req.body,
+        })
             .then(data => {
                 return responseHandler.success(res, 200, {
                     message: "",
-                    data
+                    data: data.map(({ id, name, Container }) => ({
+                        id,
+                        imagePath: `photos/${Container.name}/${name}`
+                    }))
                 }, {})
             }).catch(err => {
                 responseHandler.error()
