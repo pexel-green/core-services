@@ -2,11 +2,22 @@ const prisma = require("../../../prisma/index")
 const responseHandler = require("../../app/utils/responseHandler")
 class ContainerController {
     get(req, res) {
-        prisma.container.findUnique(req.body)
-            .then(result => {
-                responseHandler.success()
+        prisma.container.findFirst({
+            where: req.query,
+            select: {
+                User: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        })
+            .then(data => {
+                console.log({ data })
+                responseHandler.success(res, 200, data)
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
