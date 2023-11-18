@@ -19,12 +19,12 @@ class AuthController {
                         id: true,
                         name: true
                     }
-                }
+                },
+                type: true
             }
         })
             .then(result => {
-                console.log({ resultLogin: result })
-                if (req.type === 1) {
+                if (result.type === 0) {
                     responseHandler.error(res, 500, {
                         message: "Account not activate. Try to register again"
                     })
@@ -41,10 +41,21 @@ class AuthController {
         const user = await prisma.user.findFirst({
             where: {
                 email: req.body.data.email
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                type: true,
+                containers: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         })
         console.log({ user })
-
         if (!!user) {
             if (user.type === 0) {
                 return prisma.user.update({
@@ -53,29 +64,60 @@ class AuthController {
                     },
                     data: {
                         password: req.body.data.password
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        type: true,
+                        containers: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
                     }
                 })
                     .then(result => {
                         const token = jwtService.generateAccessToken(result);
+                        console.log({ token })
                         sendMail("phamcaosang135@gmail.com", token)
                         responseHandler.success(res, 201, result)
                     }).catch(err => {
                         console.log({ err })
-                        responseHandler.error(res, 500, {})
+                        responseHandler.error(res, 500, err)
                     })
             }
             return responseHandler.error(res, 500, {
                 message: "Email exists"
             })
         } else {
-            prisma.user.create(req.body)
+            console.log({ body: req.body })
+            prisma.user.create({
+                ...req.body,
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    containers: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    },
+                    type: true
+                }
+            })
                 .then(result => {
-                    const token = jwtService.generateAccessToken(result);
-                    sendMail("phamcaosang135@gmail.com", token)
+                    console.log({ result })
+                    if (result.type === 0) {
+                        const token = jwtService.generateAccessToken(result);
+                        sendMail(result.email, token)
+                    }
                     responseHandler.success(res, 201, result)
                 }).catch(err => {
                     console.log({ err })
-                    responseHandler.error(res, 500, {})
+                    responseHandler.error(res, 500, err)
                 })
         }
     }

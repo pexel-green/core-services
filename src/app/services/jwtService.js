@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = process.env.SECRET_JWT; // Replace with your own secret key
 
 function generateAccessToken(user, otherOptions = {}) {
+    console.log({ container: user.containers })
     const payload = {
         email: user.email,
         containers: user.containers[0],
