@@ -1,3 +1,4 @@
+const { default: axios } = require("axios")
 const prisma = require("../../../prisma/index")
 const responseHandler = require("../../app/utils/responseHandler")
 const { deleteDocument } = require("../services/cosmosService")
@@ -66,9 +67,22 @@ class BlobController {
                 try {
                     const deletedDocument = await deleteDocument(req.query.documentId);
                     console.log("Document deleted:", deletedDocument);
+
+                    const response = await axios.delete(`https://pexelblobstorage.blob.core.windows.net/photos/${data.Container.name}/${data.name}`);
+                    if (response.status === 204) {
+                        console.log('Blob Image deleted successfully.');
+                    } else {
+                        console.log('Failed to delete the Blob image.');
+                    }
+
                 } catch (error) {
-                    console.error("Error deleting document:", error);
+                    console.error('An error occurred while deleting the image:', error);
+                    return responseHandler.success(res, 500, {
+                        message: "",
+                        error
+                    }, {})
                 }
+
                 return responseHandler.success(res, 200, {
                     message: "",
                     data
