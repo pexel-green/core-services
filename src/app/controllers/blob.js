@@ -1,5 +1,6 @@
 const prisma = require("../../../prisma/index")
 const responseHandler = require("../../app/utils/responseHandler")
+const { deleteDocument } = require("../services/cosmosService")
 class BlobController {
     find(req, res) {
         prisma.blob.findMany({
@@ -23,7 +24,7 @@ class BlobController {
                     }))
                 }, {})
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
@@ -44,19 +45,36 @@ class BlobController {
                     data
                 }, {})
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
     delete(req, res) {
-        prisma.blob.delete(req.body)
-            .then(data => {
+        prisma.blob.delete({
+            ...req.body, select: {
+                id: true,
+                name: true,
+                Container: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        })
+            .then(async (data) => {
+
+                try {
+                    const deletedDocument = await deleteDocument(req.query.documentId);
+                    console.log("Document deleted:", deletedDocument);
+                } catch (error) {
+                    console.error("Error deleting document:", error);
+                }
                 return responseHandler.success(res, 200, {
                     message: "",
                     data
                 }, {})
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 }

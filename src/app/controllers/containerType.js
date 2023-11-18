@@ -7,7 +7,7 @@ class ContainerTypeController {
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
@@ -16,7 +16,7 @@ class ContainerTypeController {
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
@@ -25,7 +25,7 @@ class ContainerTypeController {
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
@@ -34,7 +34,7 @@ class ContainerTypeController {
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 }

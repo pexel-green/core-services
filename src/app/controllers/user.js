@@ -23,7 +23,7 @@ class UserController {
                     responseHandler.error(res, 403, null)
                 }
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
@@ -33,7 +33,7 @@ class UserController {
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 
@@ -42,7 +42,7 @@ class UserController {
             .then(result => {
                 responseHandler.success()
             }).catch(err => {
-                responseHandler.error()
+                responseHandler.error(res, 500, err)
             })
     }
 }

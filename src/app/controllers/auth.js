@@ -11,6 +11,7 @@ class AuthController {
         prisma.user.findUnique({
             ...req.body,
             select: {
+                id: true,
                 name: true,
                 email: true,
                 containers: {
@@ -22,7 +23,7 @@ class AuthController {
             }
         })
             .then(result => {
-                console.log({ result })
+                console.log({ resultLogin: result })
                 if (req.type === 1) {
                     responseHandler.error(res, 500, {
                         message: "Account not activate. Try to register again"

@@ -22,6 +22,7 @@ function generateAccessToken(user, otherOptions = {}) {
 function verifyToken(token) {
     try {
         const decoded = jwt.verify(token, secretKey);
+        console.log({ decoded })
         return decoded;
     } catch (err) {
         console.log("Invalid token")
