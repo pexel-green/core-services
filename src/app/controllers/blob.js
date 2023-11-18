@@ -52,7 +52,8 @@ class BlobController {
 
     delete(req, res) {
         prisma.blob.delete({
-            ...req.body, select: {
+            ...req.body,
+            select: {
                 id: true,
                 name: true,
                 Container: {
