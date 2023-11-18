@@ -68,7 +68,7 @@ class BlobController {
                     const deletedDocument = await deleteDocument(req.query.documentId);
                     console.log("Document deleted:", deletedDocument);
 
-                    const response = await axios.delete(`https://pexelblobstorage.blob.core.windows.net/photos/${data.Container.name}/${data.name}`);
+                    const response = await axios.delete(`https://pexelblobstorage.blob.core.windows.net/photos/${data.Container.name}/${data.name}${process.env.SASTOKENBLOB}`);
                     if (response.status === 204) {
                         console.log('Blob Image deleted successfully.');
                     } else {
