@@ -56,7 +56,7 @@ const getHTMLTemplate = (uri) => {
 }
 
 const getURI = (token) => {
-    return process.env.FE + `/activate?token=${token}`
+    return process.env.FE + `/activate?token=${token}`;
 }
 const sendMail = (receiver, token) => {
     try {
